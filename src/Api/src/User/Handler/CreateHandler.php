@@ -13,10 +13,10 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Laminas\Diactoros\Response\JsonResponse;
 
-class CreateHandler implements RequestHandlerInterface
+final readonly class CreateHandler implements RequestHandlerInterface
 {
     public function __construct(
-        private readonly CmdBusInterface $cmdBus,
+        private CmdBusInterface $cmdBus,
     ) {
     }
 
