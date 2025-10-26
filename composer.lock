@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4c449d643c6b1a5863469244ccab23ff",
+    "content-hash": "99f4de30c9d7a860fc36242fda1a574f",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -1640,7 +1640,7 @@
             "dist": {
                 "type": "path",
                 "url": "../../Github/tyrsson/league-events",
-                "reference": "89eb75fa20902cd36a966b96cf74578053c19d59"
+                "reference": "a57853afa0feb2dfb8a850712859016e59c819a1"
             },
             "require": {
                 "beberlei/assert": "^3.3",
@@ -1728,6 +1728,197 @@
             "support": {
                 "issues": "https://github.com/php-cmd/league-events/issues",
                 "source": "https://github.com/php-cmd/league-events"
+            },
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "php-db/phpdb",
+            "version": "0.2.1",
+            "dist": {
+                "type": "path",
+                "url": "../../Github/tyrsson/phpdb",
+                "reference": "d221b024cb3aea77992f41a962913918301dc92e"
+            },
+            "require": {
+                "laminas/laminas-servicemanager": "^4.0.0",
+                "laminas/laminas-stdlib": "^3.20.0",
+                "php": "~8.2.0 || ~8.3.0 || ~8.4.0"
+            },
+            "conflict": {
+                "laminas/laminas-db": "*",
+                "zendframework/zend-db": "*"
+            },
+            "require-dev": {
+                "laminas/laminas-coding-standard": "^3.0.1",
+                "laminas/laminas-eventmanager": "^3.14.0",
+                "phpstan/phpstan": "^2.1",
+                "phpstan/phpstan-phpunit": "^2.0",
+                "phpunit/phpunit": "^11.5.15",
+                "rector/rector": "^2.0"
+            },
+            "suggest": {
+                "laminas/laminas-eventmanager": "Laminas\\EventManager component",
+                "laminas/laminas-hydrator": "(^5.0.0) Laminas\\Hydrator component for using HydratingResultSets"
+            },
+            "type": "library",
+            "extra": {
+                "laminas": {
+                    "config-provider": "PhpDb\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PhpDb\\": "src/",
+                    "CustomRule\\PHPUnit\\": "rector/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "PhpDbTest\\": "test/unit/",
+                    "PhpDbIntegrationTest\\": "test/integration/"
+                }
+            },
+            "scripts": {
+                "check": [
+                    "@cs-check",
+                    "@static-analysis"
+                ],
+                "cs-check": [
+                    "phpcs"
+                ],
+                "cs-fix": [
+                    "phpcbf"
+                ],
+                "test": [
+                    "phpunit --colors=always --testsuite \"unit test\""
+                ],
+                "test-coverage": [
+                    "phpunit --colors=always --coverage-clover clover.xml"
+                ],
+                "test-integration": [
+                    "phpunit --colors=always --testsuite \"integration test\""
+                ],
+                "static-analysis": [
+                    "vendor/bin/phpstan analyse --memory-limit=256M"
+                ],
+                "sa-generate-baseline": [
+                    "vendor/bin/phpstan analyse --memory-limit=256M --generate-baseline"
+                ],
+                "upload-coverage": [
+                    "coveralls -v"
+                ]
+            },
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Database abstraction layer, SQL abstraction, result set abstraction, and RowDataGateway and TableDataGateway implementations",
+            "homepage": "https://php-db.dev",
+            "keywords": [
+                "db",
+                "laminas",
+                "mezzio",
+                "php-db"
+            ],
+            "support": {
+                "docs": "https://docs.php-db.dev/",
+                "issues": "https://github.com/php-db/phpdb/issues",
+                "source": "https://github.com/php-db/phpdb"
+            },
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "php-db/phpdb-adapter-sqlite",
+            "version": "0.1.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "../../Github/tyrsson/phpdb-adapter-sqlite",
+                "reference": "394667d4fab86f92636c6cd9abacd95e1c8e6f0c"
+            },
+            "require": {
+                "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
+                "php-db/phpdb": "^0.2.0",
+                "webmozart/assert": "^1.11"
+            },
+            "require-dev": {
+                "ext-pdo": "*",
+                "ext-pdo_sqlite": "*",
+                "laminas/laminas-coding-standard": "^3.0.1",
+                "phpunit/phpunit": "^11.5.15",
+                "psalm/plugin-phpunit": "^0.19.2",
+                "vimeo/psalm": "^6.8.8"
+            },
+            "suggest": {
+                "laminas/laminas-servicemanager": "Laminas\\ServiceManager component"
+            },
+            "type": "library",
+            "extra": {
+                "laminas": {
+                    "config-provider": "PhpDb\\Adapter\\Sqlite\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PhpDb\\Adapter\\Sqlite\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "PhpDbTest\\Adapter\\Sqlite\\": "test/unit/",
+                    "PhpDbIntegrationTest\\Adapter\\Sqlite\\": "test/integration/"
+                }
+            },
+            "scripts": {
+                "check": [
+                    "@cs-check",
+                    "@static-analysis",
+                    "@test"
+                ],
+                "cs-check": [
+                    "phpcs"
+                ],
+                "cs-fix": [
+                    "phpcbf"
+                ],
+                "test": [
+                    "phpunit --colors=always --testsuite \"unit test\""
+                ],
+                "test-coverage": [
+                    "phpunit --colors=always --coverage-clover clover.xml"
+                ],
+                "test-integration": [
+                    "phpunit --colors=always --testsuite \"integration test\""
+                ],
+                "static-analysis": [
+                    "psalm --shepherd --stats"
+                ],
+                "sa-update-baseline": [
+                    "psalm --update-baseline"
+                ],
+                "sa-no-baseline": [
+                    "psalm --shepherd --stats --ignore-baseline"
+                ],
+                "upload-coverage": [
+                    "coveralls -v"
+                ]
+            },
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "SQLite support for php-db",
+            "homepage": "https://github.com/php-db/phpdb-adapter-sqlite/discussions",
+            "keywords": [
+                "db",
+                "php-db",
+                "sqlite"
+            ],
+            "support": {
+                "issues": "https://github.com/php-db/phpdb-adapter-sqlite/issues",
+                "source": "https://github.com/php-db/phpdb-adapter-sqlite",
+                "forum": "https://github.com/php-db/phpdb-adapter-sqlite/discussions"
             },
             "transport-options": {
                 "relative": true
@@ -8913,6 +9104,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "php-cmd/league-events": 20,
+        "php-db/phpdb-adapter-sqlite": 20,
         "roave/security-advisories": 20
     },
     "prefer-stable": true,
