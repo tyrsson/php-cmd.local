@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Api\User\Handler;
 
 use App\Storage\Cmd\CreateUserCmd;
+use Laminas\DevelopmentMode\Command;
 use PhpCmd\CmdBus\Command\CommandStatus;
 use PhpCmd\CmdBus\CmdBusInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -28,7 +29,7 @@ class CreateHandler implements RequestHandlerInterface
         $result = $this->cmdBus->handle($cmd);
         return new JsonResponse(
             [
-                'status' => $result->getStatus() === CommandStatus::Success ? 'success' : 'error',
+                'status' => $result->getStatus() === CommandStatus::Success ? CommandStatus::Success->value : CommandStatus::Failure->value,
                 'userId' => $result->getResult(),
             ]
         );
