@@ -5,20 +5,26 @@ declare(strict_types=1);
 namespace App\Storage\Entity;
 
 use App\Auth\UserInterface;
+use App\Storage\EntityInterface;
 
-final class User implements UserInterface
+final class User implements UserInterface, EntityInterface
 {
     public function __construct(
-        private readonly string $id,
+        private readonly string|int|null $id,
         private readonly string $identity,
-        private readonly array $roles   = [],
-        private readonly array $details = []
+        private readonly ?array $roles,
+        private readonly ?array $details
     ) {
+    }
+
+    public function getId(): string|int|null
+    {
+        return $this->id;
     }
 
     public function getIdentity(): string
     {
-        return $this->id;
+        return $this->identity;
     }
 
     public function withIdentity(string $identity): self
@@ -53,7 +59,7 @@ final class User implements UserInterface
 
     public function withDetail(string $name, $value): self
     {
-        $newDetails       = $this->details;
+        $newDetails        = $this->details;
         $newDetails[$name] = $value;
 
         return new self(
@@ -77,5 +83,15 @@ final class User implements UserInterface
             roles: $this->roles,
             details: $details
         );
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id'       => $this->id,
+            'identity' => $this->identity,
+            'roles'    => $this->roles,
+            'details'  => $this->details,
+        ];
     }
 }

@@ -4,18 +4,14 @@ declare(strict_types=1);
 
 namespace App;
 
-use PhpCmd\CmdBus\ConfigProvider as CmdBusConfigProvider;
+use PhpCmd\Event\PostHandleEvent;
 use PhpCmd\Event\PreHandleEvent;
 use Webware\Event\ConfigKey;
 use Webware\Event\ListenerPriority as Priority;
 
-/**
- * The configuration provider for the App module
- *
- * @see https://docs.laminas.dev/laminas-component-installer/
- */
 class ConfigProvider
 {
+    public const DB_PATH = __DIR__ . '/../../../data/storage/phpcmd_test.db';
     /**
      * Returns the configuration array
      *
@@ -25,9 +21,8 @@ class ConfigProvider
     public function __invoke(): array
     {
         return [
-            'dependencies' => $this->getDependencies(),
-            'templates'    => $this->getTemplates(),
-            CmdBusConfigProvider::class => $this->getCommandMap(),
+            'dependencies'              => $this->getDependencies(),
+            'templates'                 => $this->getTemplates(),
             ConfigKey::Listeners->value => $this->getListeners(),
         ];
     }
@@ -39,10 +34,9 @@ class ConfigProvider
     {
         return [
             'invokables' => [
-                Handler\PingHandler::class => Handler\PingHandler::class,
-                CmdBus\HelloCommand::class => CmdBus\HelloCommand::class,
-                CmdBus\HelloCommandHandler::class => CmdBus\HelloCommandHandler::class,
-                Listener\PreCommandHandledListener::class => Listener\PreCommandHandledListener::class,
+                Handler\PingHandler::class                 => Handler\PingHandler::class,
+                Listener\PreCommandHandledListener::class  => Listener\PreCommandHandledListener::class,
+                Listener\PostCommandHandledListener::class => Listener\PostCommandHandledListener::class,
             ],
             'factories'  => [
                 Handler\HomePageHandler::class => Handler\HomePageHandlerFactory::class,
@@ -57,15 +51,11 @@ class ConfigProvider
                 'listener' => Listener\PreCommandHandledListener::class,
                 'event'    => PreHandleEvent::class,
                 'priority' => Priority::High->value,
-            ]
-        ];
-    }
-
-    public function getCommandMap(): array
-    {
-        return [
-            CmdBusConfigProvider::COMMAND_MAP_KEY => [
-                CmdBus\HelloCommand::class => CmdBus\HelloCommandHandler::class,
+            ],
+            [
+                'listener' => Listener\PostCommandHandledListener::class,
+                'event'    => PostHandleEvent::class,
+                'priority' => Priority::Low->value,
             ],
         ];
     }
