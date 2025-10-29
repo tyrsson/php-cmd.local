@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace App\Storage\Cmd;
 
-use App\Storage\Entity\User;
 use App\Storage\Schema;
 use PhpCmd\CmdBus\CommandInterface;
 use PhpCmd\CmdBus\CommandHandlerInterface;
-use PhpCmd\CmdBus\Command\CommandResult;
-use PhpCmd\CmdBus\Command\CommandStatus;
 use PhpDb\Adapter\AdapterInterface;
 use PhpDb\TableGateway\TableGateway;
 
