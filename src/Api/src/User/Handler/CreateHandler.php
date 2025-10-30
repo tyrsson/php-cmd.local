@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Api\User\Handler;
 
 use App\Storage\Cmd\CreateUserCmd;
-use Laminas\DevelopmentMode\Command;
 use PhpCmd\CmdBus\Command\CommandStatus;
 use PhpCmd\CmdBus\CmdBusInterface;
 use Psr\Http\Message\ResponseInterface;
