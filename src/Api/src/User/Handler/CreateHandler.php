@@ -29,7 +29,7 @@ final readonly class CreateHandler implements RequestHandlerInterface
         $result = $this->cmdBus->handle($cmd);
         return new JsonResponse(
             [
-                'status' => $result->getStatus() === CommandStatus::Success ? CommandStatus::Success->value : CommandStatus::Failure->value,
+                'status' => $result->getStatus() === CommandStatus::Success ? CommandStatus::Success->name : CommandStatus::Failure->name,
                 'userId' => $result->getResult(),
             ]
         );
