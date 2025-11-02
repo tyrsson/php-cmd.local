@@ -21,16 +21,26 @@ final readonly class CreateHandler implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $data = $request->getQueryParams();
-        $cmd  = new CreateUserCmd(
+        $data   = $request->getQueryParams();
+        $cmd    = new CreateUserCmd(
             $data['email']
         );
         $result = $this->cmdBus->handle($cmd);
-        return new JsonResponse(
-            [
-                'status' => $result->getStatus() === CommandStatus::Success ? CommandStatus::Success->name : CommandStatus::Failure->name,
-                'userId' => $result->getResult(),
-            ]
-        );
+        return match ($result->getStatus()) {
+            CommandStatus::Success => new JsonResponse(
+                [
+                    'status' => CommandStatus::Success->name,
+                    'data'   => ($result->getResult())->toArray(),
+                ],
+                201
+            ),
+            CommandStatus::Failure => new JsonResponse(
+                [
+                    'status'  => CommandStatus::Failure->name,
+                    'message' => 'User creation failed',
+                ],
+                422
+            ),
+        };
     }
 }
