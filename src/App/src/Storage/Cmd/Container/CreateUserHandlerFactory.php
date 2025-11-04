@@ -12,8 +12,14 @@ final class CreateUserHandlerFactory
 {
     public function __invoke(ContainerInterface $container): CreateUserHandler
     {
+        $adapter = $container->get(AdapterInterface::class);
+        try {
+            //$adapter = $container->get(AdapterInterface::class);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
         return new CreateUserHandler(
-            dbAdapter: $container->get(AdapterInterface::class)
+            dbAdapter: $adapter
         );
     }
 }
