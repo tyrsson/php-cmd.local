@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "99f4de30c9d7a860fc36242fda1a574f",
+    "content-hash": "4359bc0a702d8587ab3804e8d478c6e1",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -1542,11 +1542,11 @@
         },
         {
             "name": "php-cmd/cmd-bus",
-            "version": "0.3.x-dev",
+            "version": "0.4.x-dev",
             "dist": {
                 "type": "path",
                 "url": "../../Github/tyrsson/cmd-bus",
-                "reference": "450836e8905e062cbe16e755e4a362ab2cda4a6e"
+                "reference": "c636fb324ec740fac30c2f5ea8d8606938ba6b5e"
             },
             "require": {
                 "beberlei/assert": "^3.3",
@@ -1640,13 +1640,13 @@
             "dist": {
                 "type": "path",
                 "url": "../../Github/tyrsson/league-events",
-                "reference": "a57853afa0feb2dfb8a850712859016e59c819a1"
+                "reference": "f6088569d3f75dc975a0b714bf6914f49e1577d4"
             },
             "require": {
                 "beberlei/assert": "^3.3",
                 "league/event": "^3.0",
                 "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
-                "php-cmd/cmd-bus": "^0.3.0",
+                "php-cmd/cmd-bus": "^0.4.0",
                 "psr/container": "^2.0",
                 "webware/mezzio-eventdispatcher": "0.1.x-dev"
             },
@@ -1735,16 +1735,16 @@
         },
         {
             "name": "php-db/phpdb",
-            "version": "0.2.1",
+            "version": "0.3.x-dev",
             "dist": {
                 "type": "path",
                 "url": "../../Github/tyrsson/phpdb",
-                "reference": "d221b024cb3aea77992f41a962913918301dc92e"
+                "reference": "82ccbd942248e55b02d2467939bf6ce6f065a156"
             },
             "require": {
                 "laminas/laminas-servicemanager": "^4.0.0",
                 "laminas/laminas-stdlib": "^3.20.0",
-                "php": "~8.2.0 || ~8.3.0 || ~8.4.0"
+                "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0"
             },
             "conflict": {
                 "laminas/laminas-db": "*",
@@ -1836,20 +1836,20 @@
             "dist": {
                 "type": "path",
                 "url": "../../Github/tyrsson/phpdb-adapter-sqlite",
-                "reference": "394667d4fab86f92636c6cd9abacd95e1c8e6f0c"
+                "reference": "de099148c37ad55c9b83e5207e0b1d34d11f3ad9"
             },
             "require": {
-                "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
-                "php-db/phpdb": "^0.2.0",
+                "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
+                "php-db/phpdb": "^0.3.0",
                 "webmozart/assert": "^1.11"
             },
             "require-dev": {
                 "ext-pdo": "*",
                 "ext-pdo_sqlite": "*",
                 "laminas/laminas-coding-standard": "^3.0.1",
-                "phpunit/phpunit": "^11.5.15",
-                "psalm/plugin-phpunit": "^0.19.2",
-                "vimeo/psalm": "^6.8.8"
+                "phpstan/phpstan": "^2.1",
+                "phpstan/phpstan-phpunit": "^2.0",
+                "phpunit/phpunit": "^11.5.42"
             },
             "suggest": {
                 "laminas/laminas-servicemanager": "Laminas\\ServiceManager component"
@@ -1875,7 +1875,8 @@
                 "check": [
                     "@cs-check",
                     "@static-analysis",
-                    "@test"
+                    "@test",
+                    "@test-integration"
                 ],
                 "cs-check": [
                     "phpcs"
@@ -1893,13 +1894,10 @@
                     "phpunit --colors=always --testsuite \"integration test\""
                 ],
                 "static-analysis": [
-                    "psalm --shepherd --stats"
+                    "vendor/bin/phpstan analyse --memory-limit=256M"
                 ],
-                "sa-update-baseline": [
-                    "psalm --update-baseline"
-                ],
-                "sa-no-baseline": [
-                    "psalm --shepherd --stats --ignore-baseline"
+                "sa-generate-baseline": [
+                    "vendor/bin/phpstan analyse --memory-limit=256M --generate-baseline"
                 ],
                 "upload-coverage": [
                     "coveralls -v"
@@ -2371,7 +2369,7 @@
             "dist": {
                 "type": "path",
                 "url": "../../Github/tyrsson/mezzio-eventdispatcher",
-                "reference": "8a6c6cbae009983f8e5d3081f6166ef15808ba48"
+                "reference": "5b3ad748fc7261ce050b45d62993feca035436e9"
             },
             "require": {
                 "beberlei/assert": "^3.3",
@@ -2455,6 +2453,92 @@
             "support": {
                 "issues": "https://github.com/tyrsson/mezzio-eventdispatcher/issues",
                 "source": "https://github.com/tyrsson/mezzio-eventdispatcher"
+            },
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "webware/phpdb-feature",
+            "version": "0.1.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "../../Github/tyrsson/phpdb-feature",
+                "reference": "7581343488471cb429bf5841012866919c4bfaa2"
+            },
+            "require": {
+                "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
+                "webware/mezzio-eventdispatcher": "^0.1.0"
+            },
+            "require-dev": {
+                "laminas/laminas-coding-standard": "^3.0.1",
+                "php-db/phpdb": "^0.3.0",
+                "phpstan/phpstan": "^2.1",
+                "phpstan/phpstan-phpunit": "^2.0",
+                "phpunit/phpunit": "^11.5.42"
+            },
+            "type": "library",
+            "extra": {
+                "laminas": {
+                    "config-provider": "Webware\\Feature\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Webware\\Feature\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "WebwareTest\\Feature\\": "test/unit/",
+                    "WebwareIntegrationTest\\Feature\\": "test/integration/"
+                }
+            },
+            "scripts": {
+                "check": [
+                    "@cs-check",
+                    "@static-analysis",
+                    "@test",
+                    "@test-integration"
+                ],
+                "cs-check": [
+                    "phpcs"
+                ],
+                "cs-fix": [
+                    "phpcbf"
+                ],
+                "test": [
+                    "phpunit --colors=always --testsuite \"unit test\""
+                ],
+                "test-coverage": [
+                    "phpunit --colors=always --coverage-clover clover.xml"
+                ],
+                "test-integration": [
+                    "phpunit --colors=always --testsuite \"integration test\""
+                ],
+                "static-analysis": [
+                    "vendor/bin/phpstan analyse --memory-limit=256M"
+                ],
+                "sa-generate-baseline": [
+                    "vendor/bin/phpstan analyse --memory-limit=256M --generate-baseline"
+                ],
+                "upload-coverage": [
+                    "coveralls -v"
+                ]
+            },
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "PhpDb Custom Features",
+            "homepage": "https://github.com/tyrsson/phpdb-feature/discussions",
+            "keywords": [
+                "mezzio",
+                "php-db"
+            ],
+            "support": {
+                "issues": "https://github.com/tyrsson/phpdb-feature/issues",
+                "source": "https://github.com/tyrsson/phpdb-feature",
+                "forum": "https://github.com/tyrsson/phpdb-feature/discussions"
             },
             "transport-options": {
                 "relative": true
@@ -9105,7 +9189,8 @@
     "stability-flags": {
         "php-cmd/league-events": 20,
         "php-db/phpdb-adapter-sqlite": 20,
-        "roave/security-advisories": 20
+        "roave/security-advisories": 20,
+        "webware/phpdb-feature": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

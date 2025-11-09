@@ -13,6 +13,7 @@ $cacheConfig = [
 ];
 
 $aggregator = new ConfigAggregator([
+    \Webware\Feature\ConfigProvider::class,
     \Api\ConfigProvider::class,
     \PhpDb\ConfigProvider::class,
     \PhpDb\Adapter\Sqlite\ConfigProvider::class,

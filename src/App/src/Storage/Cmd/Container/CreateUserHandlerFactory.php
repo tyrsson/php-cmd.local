@@ -12,7 +12,7 @@ final class CreateUserHandlerFactory
 {
     public function __invoke(ContainerInterface $container): CreateUserHandler
     {
-        $adapter = $container->get(AdapterInterface::class);
+        $adapter = $container->get('SqliteReadAdapter');
         try {
             //$adapter = $container->get(AdapterInterface::class);
         } catch (\Throwable $th) {
