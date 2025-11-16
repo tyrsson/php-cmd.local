@@ -6,13 +6,14 @@ namespace App\Storage\GatewayListener;
 
 use Webware\Event\EventInterface;
 use Webware\Event\ListenerInterface;
+use Webware\Feature\EventDispatcher\TableGatewayEvent;
 
 final class TableGatewayListener implements ListenerInterface
 {
-    public function __invoke(EventInterface $event): void
+    public function __invoke(EventInterface|TableGatewayEvent $event): void
     {
-        $target = $event->getName();
-        $this->$target($event);
+        $target = $event->getEvent();
+        [$this, $target->value]($event);
     }
 
     public function preInsert(EventInterface $event): void
