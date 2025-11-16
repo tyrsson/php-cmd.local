@@ -12,8 +12,7 @@ final class TableGatewayListener implements ListenerInterface
 {
     public function __invoke(EventInterface|TableGatewayEvent $event): void
     {
-        $target = $event->getEvent();
-        [$this, $target->value]($event);
+        [$this, ($event->getEvent()->value)]($event);
     }
 
     public function preInsert(EventInterface $event): void
