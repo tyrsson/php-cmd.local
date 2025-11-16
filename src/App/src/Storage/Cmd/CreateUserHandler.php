@@ -37,7 +37,6 @@ final readonly class CreateUserHandler implements CommandHandlerInterface
         }
 
         try {
-            $sql   = new Sql($this->dbAdapter, Schema::User->value);
             $table = new TableGateway(
                 Schema::User->value,
                 $this->dbAdapter,
