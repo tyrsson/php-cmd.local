@@ -44,20 +44,12 @@ final readonly class CreateUserHandler implements CommandHandlerInterface
                 [new EventDispatcherFeature($this->eventDispatcher)]
             );
 
-            $id = $table->insert([
+            $effectedRows = $table->insert([
                 'identity' => $command->getIdentity(),
                 'roles'    => json_encode($command->getRoles()),
                 'details'  => json_encode($command->getDetails()),
             ]);
-            // $insert = $sql->insert();
-            // $insert->values([
-            //     'identity' => $command->getIdentity(),
-            //     'roles'    => json_encode($command->getRoles()),
-            //     'details'  => json_encode($command->getDetails()),
-            // ]);
-            // /** @var StatementInterface $statement */
-            // $statement = $sql->prepareStatementForSqlObject($insert);
-            // $result    = $statement->execute();
+
         } catch (\Throwable $th) {
             //log error
             throw $th;
