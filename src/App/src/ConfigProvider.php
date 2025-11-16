@@ -8,6 +8,7 @@ use PhpCmd\Event\PostHandleEvent;
 use PhpCmd\Event\PreHandleEvent;
 use Webware\Event\ConfigKey;
 use Webware\Event\ListenerPriority as Priority;
+use Webware\Feature\EventDispatcher\Event;
 
 class ConfigProvider
 {
@@ -37,6 +38,7 @@ class ConfigProvider
                 Handler\PingHandler::class                 => Handler\PingHandler::class,
                 Listener\PreCommandHandledListener::class  => Listener\PreCommandHandledListener::class,
                 Listener\PostCommandHandledListener::class => Listener\PostCommandHandledListener::class,
+                Storage\GatewayListener\TableGatewayListener::class => Storage\GatewayListener\TableGatewayListener::class,
             ],
             'factories'  => [
                 Handler\HomePageHandler::class => Handler\HomePageHandlerFactory::class,
@@ -55,6 +57,11 @@ class ConfigProvider
             [
                 'listener' => Listener\PostCommandHandledListener::class,
                 'event'    => PostHandleEvent::class,
+                'priority' => Priority::Low->value,
+            ],
+            [
+                'listener' => Storage\GatewayListener\TableGatewayListener::class,
+                'event'    => Event::PreInsert->value,
                 'priority' => Priority::Low->value,
             ],
         ];

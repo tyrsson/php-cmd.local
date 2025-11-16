@@ -7,6 +7,7 @@ namespace App\Storage\Cmd\Container;
 use App\Storage\Cmd\CreateUserHandler;
 use PhpDb\Adapter\AdapterInterface;
 use Psr\Container\ContainerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
 final class CreateUserHandlerFactory
 {
@@ -19,7 +20,8 @@ final class CreateUserHandlerFactory
             throw $th;
         }
         return new CreateUserHandler(
-            dbAdapter: $adapter
+            dbAdapter: $adapter,
+            eventDispatcher: $container->get(EventDispatcherInterface::class)
         );
     }
 }

@@ -14,13 +14,18 @@ use PhpCmd\CmdBus\Command\CommandStatus;
 use PhpDb\Adapter\AdapterInterface;
 use PhpDb\Adapter\Driver\StatementInterface;
 use PhpDb\Sql\Sql;
+use PhpDb\TableGateway\Feature\FeatureSet;
+use PhpDb\TableGateway\TableGateway;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Webware\Feature\EventDispatcherFeature;
 
 use function json_encode;
 
 final readonly class CreateUserHandler implements CommandHandlerInterface
 {
     public function __construct(
-        private AdapterInterface $dbAdapter
+        private AdapterInterface $dbAdapter,
+        private EventDispatcherInterface $eventDispatcher,
     ) {
     }
 
@@ -32,16 +37,27 @@ final readonly class CreateUserHandler implements CommandHandlerInterface
         }
 
         try {
-            $sql    = new Sql($this->dbAdapter, Schema::User->value);
-            $insert = $sql->insert();
-            $insert->values([
+            $sql   = new Sql($this->dbAdapter, Schema::User->value);
+            $table = new TableGateway(
+                Schema::User->value,
+                $this->dbAdapter,
+                [new EventDispatcherFeature($this->eventDispatcher)]
+            );
+
+            $id = $table->insert([
                 'identity' => $command->getIdentity(),
                 'roles'    => json_encode($command->getRoles()),
                 'details'  => json_encode($command->getDetails()),
             ]);
-            /** @var StatementInterface $statement */
-            $statement = $sql->prepareStatementForSqlObject($insert);
-            $result    = $statement->execute();
+            // $insert = $sql->insert();
+            // $insert->values([
+            //     'identity' => $command->getIdentity(),
+            //     'roles'    => json_encode($command->getRoles()),
+            //     'details'  => json_encode($command->getDetails()),
+            // ]);
+            // /** @var StatementInterface $statement */
+            // $statement = $sql->prepareStatementForSqlObject($insert);
+            // $result    = $statement->execute();
         } catch (\Throwable $th) {
             //log error
             throw $th;
@@ -50,7 +66,7 @@ final readonly class CreateUserHandler implements CommandHandlerInterface
             command: $command,
             status: CommandStatus::Success,
             result: new User(
-                id: $result->getGeneratedValue(),
+                id: $table->getLastInsertValue(),
                 identity: $command->getIdentity(),
                 roles: $command->getRoles(),
                 details: $command->getDetails()
